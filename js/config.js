@@ -2,6 +2,7 @@
 window.INVITE = {
   groom: "Aayush",
   bride: "Shreyal",
+  brideFirst: true,        // BRIDE'S SIDE: shows "Shreyal & Aayush" (bride and her parents first) everywhere. Set false for the groom's side.
   invocation: "श्री महावीराय नमः",
   groomParents: "S/o Shri Mukesh Saraf & Smt. Anju Saraf",
   brideParents: "D/o Shri Manish Modi & Smt. Seema Modi",
@@ -52,7 +53,8 @@ window.INVITE = {
   },
 
     venues: [
-    { name: "Silk Route, Chanderi",   addr: "Silk Route, Chanderi, Madhya Pradesh",            q: "Silk Route, Chanderi" }
+    { name: "Silk Route, Chanderi",   addr: "Silk Route, Chanderi, Madhya Pradesh",            q: "Silk Route, Chanderi",
+      link: "https://share.google/MbuAfOcBJyqMy5yM9" }
   ],
 
   /* image: your own illustration/photo for each card (portrait, about 4:5). Missing file = built-in Hindi-title card. */

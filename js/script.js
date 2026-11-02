@@ -1,17 +1,19 @@
 'use strict';
 const I = window.INVITE, M = I.media || {};
+/* bride's side: with brideFirst: true in config.js the bride's name and parents come first everywhere */
+const BF = !!I.brideFirst, N1 = BF ? I.bride : I.groom, N2 = BF ? I.groom : I.bride, P1 = BF ? I.brideParents : I.groomParents, P2 = BF ? I.groomParents : I.brideParents;
 const $ = id => document.getElementById(id);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const mapUrl = v => v.link || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(v.q);   // v.link = your own Google Maps link (optional)
 const isImg = s => /\.(gif|jpe?g|png|webp)$/i.test(s);
 
 /* ---------- text from config ---------- */
-document.title = `${I.groom} & ${I.bride} · शुभ विवाह`;
-for (const [id, t] of [['eG', I.groom], ['eB', I.bride], ['gName', I.groom], ['bName', I.bride], ['gPar', I.groomParents], ['bPar', I.brideParents],
+document.title = `${N1} & ${N2} · शुभ विवाह`;
+for (const [id, t] of [['eG', N1], ['eB', N2], ['gName', N1], ['bName', N2], ['gPar', P1], ['bPar', P2],
   ['clDate', I.dateDisplay.toUpperCase()]]) $(id).textContent = t;
-$('mono').innerHTML = $('mono2').innerHTML = `${I.groom[0]} <i>&amp;</i> ${I.bride[0]}`;
-$('mono').setAttribute('aria-label', `${I.groom} and ${I.bride} home`);
-$('clNames').innerHTML = `${I.groom} <i>&amp;</i> ${I.bride}`;
+$('mono').innerHTML = $('mono2').innerHTML = `${N1[0]} <i>&amp;</i> ${N2[0]}`;
+$('mono').setAttribute('aria-label', `${N1} and ${N2} home`);
+$('clNames').innerHTML = `${N1} <i>&amp;</i> ${N2}`;
 $('evIntro').textContent = `${['Two', 'Three', 'Four', 'Five', 'Six'][I.events.length - 2] || I.events.length} celebrations, countless memories.`;
 $('dReveal').innerHTML = `<span>${I.reveal.day}</span><strong>${I.reveal.date}</strong><b>${I.reveal.year}</b>`;
 $('eLamps').innerHTML = [6, 18, 82, 94].map((l, i) => `<i class="lamp" style="left:${l}%;top:${70 + (i % 2) * 40}px;--h:${50 + (i % 2) * 40}px;animation-delay:-${i * .7}s"></i>`).join('');
@@ -202,7 +204,7 @@ function eventTimes(e) {
   return [f(s), f(en)];                                                                                                                   // default length 3 hours (add hours: 4 to an event to change)
 }
 const gcalUrl = e => { const tm = eventTimes(e); if (!tm) return '#'; const v = I.venues[e.venue];
-  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(`${e.name} - ${I.groom} & ${I.bride}`)
+  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(`${e.name} - ${N1} & ${N2}`)
     + `&dates=${tm[0]}/${tm[1]}&ctz=Asia/Kolkata&details=${encodeURIComponent((e.desc || '') + '\n\nMap: ' + mapUrl(v))}&location=${encodeURIComponent(v.addr)}`; };
 
 /* ---------- events (cards + detail popup) ---------- */
@@ -291,9 +293,9 @@ function wa(t, form) {
 const rsvp = $('rsvpForm');
 rsvp.addEventListener('change', () => { const no = rsvp.elements.attending.value === 'Sadly unable to attend'; rsvp.elements.guests.disabled = no; $('gcLabel').hidden = no; });
 rsvp.addEventListener('submit', e => { e.preventDefault(); const f = new FormData(rsvp), no = f.get('attending') === 'Sadly unable to attend';
-  wa(`RSVP for ${I.groom} & ${I.bride}'s wedding\nName: ${f.get('name')}\nResponse: ${f.get('attending')}` + (no ? '' : `\nGuests: ${f.get('guests')}`), rsvp); });
+  wa(`RSVP for ${N1} & ${N2}'s wedding\nName: ${f.get('name')}\nResponse: ${f.get('attending')}` + (no ? '' : `\nGuests: ${f.get('guests')}`), rsvp); });
 $('wishForm').addEventListener('submit', e => { e.preventDefault(); const f = new FormData(e.target);
-  wa(`Wishes for ${I.groom} & ${I.bride}\nFrom: ${f.get('name')}\n${f.get('message')}`, e.target); });
+  wa(`Wishes for ${N1} & ${N2}\nFrom: ${f.get('name')}\n${f.get('message')}`, e.target); });
 
 /* ---------- auto scroll ----------
    Starts by itself a moment after the invitation opens. Touching the screen (or using the mouse wheel / keys / scrollbar) pauses it,
